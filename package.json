@@ -1,0 +1,18 @@
+{
+  "name": "reselect",
+  "version": "1.0.0",
+  "description": "for test reselect",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "reselect",
+    "redux-middleware"
+  ],
+  "author": "hazyzh",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^3.5.6"
+  }
+}
