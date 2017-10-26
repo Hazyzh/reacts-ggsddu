@@ -1,8 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
-import App from './containers/App.js'
+// import App from './containers/App.js'
+import App from './components/Antd.js'
 import './index.less'
+
+// console.log(progress)
 
 ReactDOM.render(
   <App/>,

@@ -1,11 +1,14 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
+const project = process.argv[2]
 
 module.exports = {
   entry: [
     'babel-polyfill',
     'react-hot-loader/patch',
-    './src/index.js',
+    'antd/dist/antd.less',
+    path.resolve(__dirname, project)
   ],
   output: {
     filename: 'bundle.js',
@@ -16,9 +19,7 @@ module.exports = {
     new HtmlWebpackPlugin({
         title: 'redux-middleware',
         template: path.resolve(__dirname, 'tmp.html'),
-        inline: true,
-        color: true,
-    }),
+    })
   ],
   devServer: {
     contentBase: path.join(__dirname, "dist"),
@@ -26,12 +27,17 @@ module.exports = {
     clientLogLevel: "warning",
     open: true,
     port: 9000,
+    proxy: {
+      "/": {
+        target: "http://localhost:8088",
+        pathRewrite: {'^/api' : '/'}
+      }
+    }
   },
   module: {
     rules: [
       {
         test: /.jsx?$/,
-        include: [path.resolve(__dirname, 'src')],
         exclude: [path.resolve(__dirname, 'node_modules')],
         loader: 'babel-loader'
       },
@@ -44,5 +50,6 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+
 }

@@ -1,3 +1,5 @@
+import api from '../api'
+
 let nextTodoId = 0
 
 /**
@@ -26,4 +28,20 @@ export const setVisibilityFilter = filter => ({
 export const toggleTodo = id => ({
   type: 'TOGGLE_TODO',
   id
+})
+
+/**
+ * toggleUser toggle
+ */
+export const toggleUser = () => ({
+  type: 'TOGGLE_USER'
+})
+
+/**
+ * toggleUser toggle
+ */
+export const testChunk = () => ({
+  type: 'FETCH_DATA',
+  payload: api.post('/api/new/index'),
+  params: 'hello world'
 })
