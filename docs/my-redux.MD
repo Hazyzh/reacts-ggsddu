@@ -28,7 +28,9 @@
 
 关于我们常用到的内容, 首先我们要考虑 `createStore` 方法, 使得可以创建出来我们后面要用到的 `store` , 可以接受 `action` 去处理改变 `state`, 并且去触发其他事件，比如组建渲染。 `Provider` 组建，可以传入一个 `store` 向下分发我们的 `store`,使得子组建可以获取到我们 `store` 内的属性和方法。一个 `connect` 方法，使得子组建可以获取到 `store` 里面的内容, 并根据 `state` 改变及时刷新渲染。
 
-### 实现 createStore
+### 动手实现 redux
+
+#### 实现 createStore
 
 
 ```javascript
@@ -60,7 +62,7 @@
 
 这个模块直接 `export` 创建 `store` 的函数,考虑到要暴露出去的三个函数, 我们用函数内部的变量 `state` 来存储我们的数据, `getState` 时候直接返回当前的值就可以了, 同样用内部变量 `listeners` 来存储订阅者, 订阅者则由 `dispatch` 函数添加, 返回取消订阅的函数。 `dispatch` 则根据 `action` 返回新的 `state` 同时通知订阅者执行相关逻辑。最后返回包含这三个函数的对象。改对象接受 `reducer` 作为参数, 内部执行一次 `dispatch` 则是为了初始化 `state`
 
-### 实现 reducer
+#### 实现 reducer
 
 ```javascript
 
@@ -81,7 +83,7 @@
 
 关于 `reducer` 则简单的实现了根据不同的 `action`, 返回不同的 `state`, 只是刚开始判断了如果没有 `state`, 即初始化时候返回设置好的初始化值。
 
-### 实现 Provider
+#### 实现 Provider
 
 ```javascrpit
 
@@ -99,7 +101,7 @@
 
 这里必须提一下 `react` 的 `context` 这个属性, 可以让我们不通过 `props` 去获取到上层组建的属性, 不过关于写法却有一些特殊的规定而且在后面的版本可能被移除, 具体信息可以参考[Context](https://reactjs.org/docs/context.html). 我们用 `context` 把创建的 `store` 存入顶层组建中, 这样就可以在后序组建中去获取到相关内容了。
 
-### 实现connect
+#### 实现connect
 
 ```javascript
 

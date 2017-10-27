@@ -13,6 +13,11 @@ const isPromise = value => {
 
 let { dispatch, getState } = store
 
+/**
+ * dispatch 添加 thunk 处理
+ * 如果参数是函数, 则传入 dispatch 函数供函数内部逻辑调用
+ * @param  {any} arg
+ */
 store.dispatch = arg => {
 	if (typeof arg === 'function') return arg(dispatch, getState)
 
@@ -21,6 +26,11 @@ store.dispatch = arg => {
 
 const dispatch2 = store.dispatch
 
+/**
+ * 添加 promise 处理函数
+ * 如果参数的 payload 属性是 promise 对象, 则在 promise 的各个阶段, 触发不同的事件完成异步逻辑
+ * @param  {any} action
+ */
 store.dispatch = action => {
 	if (isPromise(action.payload)) {
 		const { type, payload, params } = action

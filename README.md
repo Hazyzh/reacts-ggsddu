@@ -1,6 +1,6 @@
-### reacts-ggsddu (good good study day day up)
+### reacts-ggsddu
 
-记录或者分享一个关于 `react` 学习路上的心得和体会
+记录或者分享一些关于 `react` 学习路上的心得和体会
 
 ---
 
