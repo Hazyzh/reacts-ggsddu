@@ -14,7 +14,7 @@ const isPromise = value => {
 let { dispatch, getState } = store
 
 /**
- * redux-logger 简单的打印出最后触发的 action 每一次请求的信息和 state 的状态
+ * redux-logger 简单的打印出最后触发的 action 每一次开始和结束的信息和 state 的状态
  */
 store.dispatch = (action) => {
 	console.info('start', action.type, getState())
