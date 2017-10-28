@@ -29,7 +29,7 @@ const dispatch1 = store.dispatch
  * @param  {any} arg
  */
 store.dispatch = arg => {
-	if (typeof arg === 'function') return arg(dispatch1, getState)
+	if (typeof arg === 'function') return arg(store.dispatch, getState)
 
 	dispatch1(arg)
 }
