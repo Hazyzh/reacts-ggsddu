@@ -37,7 +37,7 @@
 
 我们之前有去[手动实现 `redux` 异步](https://github.com/Hazyzh/reacts-ggsddu/blob/master/docs/thunkPriomise.md), 其实也算有一些简单的中间件, 最终目的就是改造了 `store` 的 `dispatch` 函数。但是当时自己纯粹为了实现目的，代码可读性和延展性几乎没有。用过 `nodejs` 的 `koa` 框架的一定知道中间件这个概念。`redux` 这里也是使用了中间件的思想, 用来增强 `redux` 的 `dispatch` 函数。
 
-![redux-middleware](https://hazyzh.oss-cn-shenzhen.aliyuncs.com/imgs/redux/redux-middleware.png)
+![redux-middleware](https://hazyzh.oss-cn-shenzhen.aliyuncs.com/imgs/redux/%E4%B8%9C%E8%8E%9E%E4%BA%8B%E4%B8%9A%E9%83%A8%E5%82%AC%E8%B4%B9%E6%95%B0%E6%8D%AE.png)
 
 #### redux 规定的 middleware 格式
 
@@ -55,8 +55,8 @@ export default store => next => action => {
 上面的代码我们可以感受很多函数编程的思想(*这也是我喜欢 `react` 一个很重要的原因*), 函数编程中有一个重要的概念 `柯里化`, 其实我们之前去实现 `compose` 函数时候细心的同学也能发现, 作为 `compose` 函数的参数, 这些函数应该都只接受一个参数, `redux` 规定的中间件写法是一个链式返回函数的写法, 中间的参数都已经固定了, 也就是我们只能在最后的代码框里书写中间件的业务逻辑, 在这个里面我们可以拿到哪些参数使用呢, 很明显就是上面链式返回函数里的参数。
 
 `action` 我们很容易想到 `dispatch` 函数的参数就叫做 `action`, 但其实这里拿到的 `action` 应该是我们原始的内容经过 `redux` 的 `middleware` 一层一层处理到当前中间件时候的 `action`, 有了 `action` 我们要怎么处理它， 我们最原始的 `dispatch` 函数去哪里了, `store` 和 `next` 又指的是什么呢？带着问题我们继续看他后面是怎么处理的。
- 
 
+#### 中间件各个参数含义
 
 ```javascript
 
@@ -90,7 +90,7 @@ export default function compose(...funcs) {
   if (funcs.length === 1) {
     return funcs[0]
   }
-  
+
   return funcs.reduce((a, b) => (...args) => a(b(...args)))
 }
 
@@ -106,6 +106,17 @@ export default function compose(...funcs) {
 - 对 `promise`	而言 	**next** --> `logger 处理` - `dispatch`
 - 对 ` thunk `	而且 	**next** --> `promise 处理` - `logger 处理` - `dispatch`
 
-这里注意 `middlewareAPI` 中的 `dispatch` 熟悉并没有简单的就赋值为 `dispatch`, 而是包装成一个函数,当函数调用时去调用 `dispatch`, 而后面 `dispatch` 会被重新赋值, 所以中间件通过参数 `store` 拿到的 `dispatch`的功能应该等同于包装后的 `dispatch`. 
+这里注意 `middlewareAPI` 中的 `dispatch` 熟悉并没有简单的就赋值为 `dispatch`, 而是包装成一个函数,当函数调用时去调用 `dispatch`, 而后面 `dispatch` 会被重新赋值, 所以中间件通过参数 `store` 拿到的 `dispatch`的功能应该等同于包装后的 `dispatch`.
 
+`Note: logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions`, `redux-logger` 中有这样一句提示,希望你把 `logger` 这个中间件作为最后一个参数, 正是因为放在前面的中间件有可能会改变 `action` ,最后这个最贴近原始 `dispatch` 位置的中间件拿到的 `action` 基本都是用户最终想要的实际类型。
+
+
+### 思考
+
+学习 `react` 的过程中, 对 `函数式编程` 有了新的认识, 让之前很多只停留在了解层面的知识点有了实际应用的地方。感觉很多概念理解起来会比较抽象, 但是仔细研究后又会觉得很优雅。
+
+### 参考
+
+- [redux.js/applyMiddleware](http://redux.js.org/docs/api/applyMiddleware.html)
+- [redux middleware 详解](https://segmentfault.com/a/1190000004485808)
 

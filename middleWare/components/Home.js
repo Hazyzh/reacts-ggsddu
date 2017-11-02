@@ -32,7 +32,7 @@ Home.propTypes = {
 	num: PropTypes.number.isRequired,
 	dataList: PropTypes.array.isRequired,
 
-	loading: PropTypes.bool.isRequired,
+	loading: PropTypes.any,
 
 	addFunc: PropTypes.func.isRequired,
 	getDataFunc: PropTypes.func.isRequired,

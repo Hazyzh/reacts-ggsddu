@@ -119,12 +119,14 @@ export default function promiseMiddleware(config = {}) {
        */
       const handleReject = reason => {
         const rejectedAction = getAction(reason, true);
-        dispatch(rejectedAction);
 
 //    -------------------------------- add code  start ----------------
         dispatch(getViewActionEnd())
 //    -------------------------------- add code  end ------------------
 
+
+
+        dispatch(rejectedAction);
         // throw reason;
       };
 
@@ -138,11 +140,13 @@ export default function promiseMiddleware(config = {}) {
        */
       const handleFulfill = (value = null) => {
         const resolvedAction = getAction(value, false);
-        dispatch(resolvedAction);
 
 //    -------------------------------- add code  start ----------------
         dispatch(getViewActionEnd())
 //    -------------------------------- add code  end ------------------
+
+
+	    dispatch(resolvedAction);
 
         return { value, action: resolvedAction };
       };
