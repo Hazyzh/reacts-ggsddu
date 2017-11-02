@@ -1,17 +1,23 @@
 {
   "name": "reselect",
   "version": "1.0.0",
-  "description": "for test reselect",
+  "description": "for share or test some reacts ideas",
   "main": "index.js",
   "scripts": {
     "redux": "webpack-dev-server my-redux --hot --color --progress",
 	"dev": "webpack-dev-server src --hot --color --progress",
 	"async-1": "webpack-dev-server thunkPromise --hot --color --progress",
+	"async-2": "webpack-dev-server middleWare --hot --color --progress",
     "start": "node server.js"
   },
   "keywords": [
+	"react",
+	"redux",
     "reselect",
-    "redux-middleware"
+	"redux-thunk",
+	"redux-promise",
+    "redux-middleware",
+	"reacts-ggsddu"
   ],
   "author": "hazyzh",
   "license": "ISC",

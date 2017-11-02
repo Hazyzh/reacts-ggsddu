@@ -1,56 +1,46 @@
 import React from 'react'
-import { Transfer } from 'antd'
+import { Layout, Menu } from 'antd';
+const { Header, Content, Footer } = Layout
+const SubMenu = Menu.SubMenu
+const MenuItemGroup = Menu.ItemGroup
 
 class App extends React.Component {
-  state = {
-    mockData: [],
-    targetKeys: [],
-  }
-  componentDidMount() {
-    this.getMock();
-  }
-  getMock = () => {
-    const targetKeys = [];
-    const mockData = [];
-    for (let i = 0; i < 20; i++) {
-      const data = {
-        key: i.toString(),
-        title: `content${i + 1}`,
-        description: `description of content${i + 1}`,
-        chosen: Math.random() * 2 > 1,
-      };
-      if (data.chosen) {
-        targetKeys.push(data.key);
-      }
-      mockData.push(data);
-    }
-    this.setState({ mockData, targetKeys });
-  }
-  filterOption = (inputValue, option) => {
-    return option.description.indexOf(inputValue) > -1;
-  }
-  handleChange = (targetKeys) => {
-    this.setState({ targetKeys });
-  }
-  render() {
-    return (
-      <Transfer
-        dataSource={this.state.mockData}
-        showSearch
-        filterOption={this.filterOption}
-        targetKeys={this.state.targetKeys}
-        onChange={this.handleChange}
-        render={item => item.title}
-		listStyle={
-			{
-				width: '400px',
-				height: '500px'
-			}
-		}
-      />
-    );
-  }
+	state = {
+		current: 'mail',
+	}
+	handleClick = (e) => {
+		console.log('click ', e);
+		this.setState({
+			current: e.key,
+		});
+	}
+	render() {
+		return (
+			<Layout className="asaslayout">
+				<Header>
+					<div className="logo" />
+					<Menu
+						theme="dark"
+						mode="horizontal"
+						defaultSelectedKeys={['2']}
+
+						 >
+						<Menu.Item key="1">nav 1</Menu.Item>
+						<Menu.Item key="2">nav 2</Menu.Item>
+
+						<Menu.Item key="3" style={{ float: 'right' }}>nav 3</Menu.Item>
+						<Menu.Item key="4" style={{ float: 'right' }}>nav 4</Menu.Item>
+						<Menu.Item key="5" style={{ float: 'right' }}>nav 5</Menu.Item>
+					</Menu>
+				</Header>
+				<Footer style={{ textAlign: 'center' }}>
+					Ant Design ©2016 Created by Ant UED
+				</Footer>
+			</Layout>
+		);
+	}
 }
+
 
 
 export default App
