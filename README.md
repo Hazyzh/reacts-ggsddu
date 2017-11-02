@@ -13,3 +13,8 @@
 
 	- 基于上面 [ 动手实现redux ], 扩展 `redux` 的 `dispatch` 函数, 使之支持 `thunk` 和 `promise` 参数的 `action`
 	- `npm run async-1` 可以运行测试此功能, 代码在 `thunkPromise` 目录下
+
+- [redux-middleware](https://github.com/Hazyzh/reacts-ggsddu/blob/master/docs/middleWare.md)
+
+	- 分析中间件的实现方法
+	- 中间件中可以获取到的各个参数的含义, 以及里面参数的区别。
