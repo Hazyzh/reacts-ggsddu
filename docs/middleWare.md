@@ -108,7 +108,7 @@ export default function compose(...funcs) {
 
 这里注意 `middlewareAPI` 中的 `dispatch` 熟悉并没有简单的就赋值为 `dispatch`, 而是包装成一个函数,当函数调用时去调用 `dispatch`, 而后面 `dispatch` 会被重新赋值, 所以中间件通过参数 `store` 拿到的 `dispatch`的功能应该等同于包装后的 `dispatch`.
 
-`Note: logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions`, `redux-logger` 中有这样一句提示,希望你把 `logger` 这个中间件作为最后一个参数, 正是因为放在前面的中间件有可能会改变 `action` ,最后这个最贴近原始 `dispatch` 位置的中间件拿到的 `action` 基本都是用户最终想要的实际类型。
+`redux-logger` 中有这样一句提示：`Note: logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions`, 希望你把 `logger` 这个中间件作为最后一个参数, 正是因为放在前面的中间件有可能会改变 `action` ,最后这个最贴近原始 `dispatch` 位置的中间件拿到的 `action` 基本都是用户最终想要的实际类型。
 
 
 ### 思考
@@ -119,4 +119,3 @@ export default function compose(...funcs) {
 
 - [redux.js/applyMiddleware](http://redux.js.org/docs/api/applyMiddleware.html)
 - [redux middleware 详解](https://segmentfault.com/a/1190000004485808)
-
