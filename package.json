@@ -7,7 +7,7 @@
     "redux": "webpack-dev-server my-redux --hot --color --progress",
 	"dev": "webpack-dev-server src --hot --color --progress",
 	"async-1": "webpack-dev-server thunkPromise --hot --color --progress",
-	"async-2": "webpack-dev-server middleWare --hot --color --progress",
+	"async-2": "webpack-dev-server promiseMiddleware --hot --color --progress",
     "start": "node server.js"
   },
   "keywords": [

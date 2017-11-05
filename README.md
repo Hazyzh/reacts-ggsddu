@@ -18,3 +18,9 @@
 
 	- 分析中间件的实现方法
 	- 中间件中可以获取到的各个参数的含义, 以及里面参数的区别。
+
+- [redux-promise-middleware 最佳实践](https://github.com/Hazyzh/reacts-ggsddu/blob/master/docs/practice-promiseMiddleware.md)
+
+	- `promise` 中间件简单说明,和实践需求概述。
+	- 改变中间件源码,使得自动实现保持简单乐观更新能力。
+	- `npm run async-2` 可以运行测试此功能, 代码在 `promiseMiddleware` 目录下

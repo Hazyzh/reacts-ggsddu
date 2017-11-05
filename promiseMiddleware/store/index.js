@@ -2,7 +2,8 @@ import { applyMiddleware, createStore } from 'redux'
 import { createLogger } from 'redux-logger'
 
 const logger = createLogger({
-	diff: true
+	diff: true,
+	collapsed: true
 })
 import thunk from 'redux-thunk'
 
