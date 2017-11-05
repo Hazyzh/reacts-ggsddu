@@ -1,9 +1,9 @@
-import isPromise from './isPromise';
+import isPromise from './isPromise.js';
 
 export const PENDING = 'PENDING';
 export const FULFILLED = 'FULFILLED';
 export const REJECTED = 'REJECTED';
-export const ViewActionType = Symbol('view_action_type')
+export const STATEMACHINE = Symbol('ASYNC_STATE_MACHINE');
 
 const defaultTypes = [PENDING, FULFILLED, REJECTED];
 
@@ -15,6 +15,7 @@ const defaultTypes = [PENDING, FULFILLED, REJECTED];
 export default function promiseMiddleware(config = {}) {
   const promiseTypeSuffixes = config.promiseTypeSuffixes || defaultTypes;
   const promiseTypeSeparator = config.promiseTypeSeparator || '_';
+  const stateMachine = config.isOpenStateType
 
   return ref => {
     const { dispatch } = ref;
@@ -29,7 +30,7 @@ export default function promiseMiddleware(config = {}) {
       }
 
       // Deconstruct the properties of the original action object to constants
-      const { type, payload, meta, params = {} } = action;
+      const { type, payload, meta } = action;
 
       // Assign values for promise type suffixes
       const [
@@ -53,9 +54,20 @@ export default function promiseMiddleware(config = {}) {
         ...(meta !== undefined ? { meta } : {}),
         ...(isRejected ? {
           error: true
-        } : {}),
-        ...{params}
+        } : {})
       });
+
+	  /**
+	   * @function getStateAction
+	   * @description Utility function for creating a action about the action state
+	   * @param  {Boolean} isFetching now this action is fetching or end ?
+	   * @return {object}  action
+	   */
+	  const getStateAction = isFetching => ({
+		  type: STATEMACHINE,
+		  actionType: type,
+		  isFetching
+	  });
 
       /**
        * Assign values for promise and data variables. In the case the payload
@@ -85,29 +97,13 @@ export default function promiseMiddleware(config = {}) {
         ...(meta !== undefined ? { meta } : {})
       });
 
-//    -------------------------------- add code  start ----------------
-      /**
-       * dispatch then ViewActionType action. this for change the redux view
-       * state auto. so there have to has a reduce to deal with this action
-       * and change then view state.
-       */
-      next({
-        type: ViewActionType,
-        actionType: type,
-        loading: true
-      })
-      /**
-       * to get then end action. this same as the begin action. but change the
-       * loading state to false. mean that then async action is end.
-       * @return {object} a redux action
-       */
-       const getViewActionEnd = () => ({
-         type: ViewActionType,
-         actionType: type,
-         loading: false
-       });
+	  /**
+	   * if had the Configuration will dispatch a `true` action, to tell user this action's type
+	   * is fetching data now. and on the end of the promise will dispatch the `false` action whether
+	   * the promise is rejected or fulfilled
+	   */
+	  if (stateMachine) {next(getStateAction(true))};
 
-//    -------------------------------- add code  end ------------------
       /*
        * @function handleReject
        * @description Dispatch the rejected action and return
@@ -118,16 +114,12 @@ export default function promiseMiddleware(config = {}) {
        * @returns {object}
        */
       const handleReject = reason => {
+	  	if (stateMachine) {next(getStateAction(false))};
+
         const rejectedAction = getAction(reason, true);
-
-//    -------------------------------- add code  start ----------------
-        dispatch(getViewActionEnd())
-//    -------------------------------- add code  end ------------------
-
-
-
         dispatch(rejectedAction);
-        // throw reason;
+
+        throw reason;
       };
 
       /*
@@ -139,14 +131,10 @@ export default function promiseMiddleware(config = {}) {
        * @returns {object}
        */
       const handleFulfill = (value = null) => {
+		if (stateMachine) {next(getStateAction(false))};
+
         const resolvedAction = getAction(value, false);
-
-//    -------------------------------- add code  start ----------------
-        dispatch(getViewActionEnd())
-//    -------------------------------- add code  end ------------------
-
-
-	    dispatch(resolvedAction);
+        dispatch(resolvedAction);
 
         return { value, action: resolvedAction };
       };

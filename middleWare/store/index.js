@@ -2,7 +2,6 @@ import { applyMiddleware, createStore } from 'redux'
 import { createLogger } from 'redux-logger'
 
 const logger = createLogger({
-	collapsed: true,
 	diff: true
 })
 import thunk from 'redux-thunk'
@@ -10,7 +9,8 @@ import thunk from 'redux-thunk'
 import promiseMiddleware from './middleware/promise_middleware'
 // promise middlerware
 const promiseWare = promiseMiddleware({
-	promiseTypeSuffixes: ['LOADING', 'SUCCESS', 'ERROR']
+	promiseTypeSuffixes: ['PENDING', 'FULFILLED', 'REJECTED'],
+	isOpenStateType: true
 })
 
 import rootReducer from '../reducers/index.js'

@@ -1,4 +1,4 @@
-import { ViewActionType } from '../store/middleware/promise_middleware.js'
+import { STATEMACHINE } from '../store/middleware/promise_middleware.js'
 
 /**
  * this is for store ui state, it will change automatic after the async function
@@ -9,11 +9,11 @@ import { ViewActionType } from '../store/middleware/promise_middleware.js'
  */
 const uiStateStore = (state = {}, action) => {
 	switch (action.type) {
-		case ViewActionType: {
-			let { actionType, loading } = action
+		case STATEMACHINE: {
+			let { actionType, isFetching } = action
 			return {
 				...state,
-				[actionType]: loading
+				[actionType]: isFetching
 			}
 		}
 		default:

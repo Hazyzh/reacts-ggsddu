@@ -6,11 +6,11 @@
  */
 const home = (state = [], action) => {
 	switch (action.type) {
-		case 'ADD_LIST_LOADING':
+		case 'ADD_LIST_PENDING':
 			return []
-		case 'ADD_LIST_SUCCESS':
+		case 'ADD_LIST_FULFILLED':
 			return action.payload
-		case 'ADD_LIST_ERROR':
+		case 'ADD_LIST_REJECTED':
 			return state
 		default:
 			return state
