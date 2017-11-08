@@ -24,3 +24,9 @@
 	- `promise` 中间件简单说明,和实践需求概述。
 	- 改变中间件源码,使得自动实现保持简单乐观更新能力。
 	- `npm run async-2` 可以运行测试此功能, 代码在 `promiseMiddleware` 目录下
+
+- [记忆化状态reselect的实践与思考](https://github.com/Hazyzh/reacts-ggsddu/blob/master/docs/reselect.md)
+
+	- `reselect` 使用目的和相似思想。
+	- 实例中展示 `reselect` 插件的效果。
+	- `npm run reselect` 可以运行测试此功能, 代码在 `reselect` 目录下

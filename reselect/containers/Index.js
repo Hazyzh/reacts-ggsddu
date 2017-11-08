@@ -8,6 +8,10 @@ import { createSelector } from 'reselect'
 
 const getList = state => state.home.list
 
+/**
+ * create select by reselect
+ * @type {object} state
+ */
 const getTotal1 = createSelector(
 	getList,
 	items => {
@@ -16,6 +20,11 @@ const getTotal1 = createSelector(
 	}
 )
 
+/**
+ * create select smiple
+ * @param  {array} items
+ * @return {number} total checked value
+ */
 const getTotal2 = items => {
 	console.log('getTotal2 将要计算')
 	return items.reduce((acc, item) => acc + (item.checked ? item.price : 0), 0)

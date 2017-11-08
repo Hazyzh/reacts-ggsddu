@@ -68,4 +68,47 @@ getSum(store) // 3
 #### 实例中应用
 
 假设我们有一组选择框,上面分别罗列了各个商品的名称和价钱,我们需要在底部展示我们当前选择商品的价格总和。这里我们用 `redux` 实现。
-我们在 `state` 中放置一个商品数组。类似`list = [{name: 'item1', price: 12, checked: false},...]`,这里我们直接用 `checked` 属性控制商品是否被选中。然后用两种方法去计算当前选择
+我们在 `state` 中放置一个商品数组。类似`list = [{name: 'item1', price: 12, checked: false},...]`,这里我们直接用 `checked` 属性控制商品是否被选中。然后用两种方法去计算当前选中项的价格总和
+
+```javascript
+// input-selectors
+const getList = state => state.home.list
+/**
+ * create select by reselect
+ * @type {object} state
+ */
+const getTotal1 = createSelector(
+	getList,
+	items => {
+		console.log('getTotal1 将要计算')
+		return items.reduce((acc, item) => acc + (item.checked ? item.price : 0), 0)
+	}
+)
+
+/**
+ * create select smiple
+ * @param  {array} items
+ * @return {number} total checked value
+ */
+const getTotal2 = items => {
+	console.log('getTotal2 将要计算')
+	return items.reduce((acc, item) => acc + (item.checked ? item.price : 0), 0)
+}
+```
+
+我们通过 `reselect` 创建一个记忆化函数 `getTotal1`。然后自己在简单的写一个计算总和的函数 `getTotal2`。我们在页面里加入一个 `input` 输入框它的值页关联到 `redux` 的 `state` 中。我们可以看到当 `getTotal1` 和 `getTotal2` 执行计算时候分别会 `log` 出相对应的信息。测试实际效果发现
+
+
+![reselect](http://hazyzh.oss-cn-shenzhen.aliyuncs.com/imgs/redux/reselect.gif)
+
+当我们改变 `list`里面对值时候两个计算都会发生,但是当我们改变无关变量 `input` 的值时候，`reselect` 创造的选择计算器内部的计算就不会发生，这是因为它的数据源对应的列表并没有发生过变化。这样就节省了很大的计算量。
+
+### 小节
+
+实例在项目 [`react-ggsddu`](https://github.com/Hazyzh/reacts-ggsddu) 运行 `npm run reselect` 体验。
+
+`reselect` 还有很多其他的 `api` 以及使用场景，在他的 [文档](https://github.com/reactjs/reselect) 里面已经说的很清楚了。
+
+感觉有时候看有些题目已经算法之类的总感觉这些都是纯粹为了做题，但是后面自己发现很多思想和技巧其实都在这里面。
+
+`every thing think twice`
