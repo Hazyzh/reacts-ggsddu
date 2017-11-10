@@ -9,6 +9,7 @@
     "async-1": "webpack-dev-server thunkPromise --hot --color --progress",
     "async-2": "webpack-dev-server promiseMiddleware --hot --color --progress",
     "reselect": "webpack-dev-server reselect --hot --color --progress",
+    "saga": "webpack-dev-server redux-saga --hot --color --progress",
     "start": "node server.js"
   },
   "keywords": [
@@ -51,6 +52,7 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
+    "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0"
   }
 }
